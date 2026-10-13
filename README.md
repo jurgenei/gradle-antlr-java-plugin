@@ -1,9 +1,14 @@
 # Gradle ANTLR Java Plugin
 
+![Conformance](https://img.shields.io/badge/Conformance-Check--All%20Passing-brightgreen)
+
 [![Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/name.jurgenei.gradle.antlr.java?label=Plugin%20Portal)](https://plugins.gradle.org/plugin/name.jurgenei.gradle.antlr.java)
-[![CI](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/ci.yml)
-[![Coverage](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/coverage.yml/badge.svg)](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/coverage.yml)
+[![Build and Test](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/ci.yml?query=branch%3Amain)
+[![Coverage CI](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/coverage.yml/badge.svg?branch=main)](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/coverage.yml?query=branch%3Amain)
+[![Coverage](https://codecov.io/gh/jurgenei/gradle-antlr-java-plugin/graph/badge.svg?branch=main)](https://app.codecov.io/gh/jurgenei/gradle-antlr-java-plugin?branch=main)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Java](https://img.shields.io/badge/java-21+-green.svg)](https://www.oracle.com/java/)
+[![Gradle](https://img.shields.io/badge/gradle-8+-blue.svg)](https://gradle.org/)
 
 `gradle-antlr-java-plugin` provides preconfigured XML AST conversion support for Java sources using ANTLR Java grammars.
 
