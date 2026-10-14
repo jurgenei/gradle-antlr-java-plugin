@@ -196,6 +196,7 @@ tasks.named('generateGrammarSource') {
 }
 
 tasks.named('sourcesJar', org.gradle.api.tasks.bundling.Jar) {
+    dependsOn tasks.named('generateParserSources')
     duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.EXCLUDE
 }
 
