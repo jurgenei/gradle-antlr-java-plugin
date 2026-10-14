@@ -16,7 +16,7 @@
 
 ```groovy
 plugins {
-    id 'name.jurgenei.gradle.antlr.java' version '0.1.0'
+    id 'name.jurgenei.gradle.antlr.java' version '0.1.1'
 }
 ```
 
