@@ -18,7 +18,7 @@ plugins {
 }
 
 group = 'name.jurgenei.gradle'
-version = '0.1.0'
+version = '0.1.1'
 
 ext {
     spotbugsEngineVersion = '4.8.6'
@@ -184,6 +184,13 @@ sourceSets {
             srcDir 'src/main/antlr'
             include '**/*.g4'
         }
+    }
+}
+
+tasks.named('javadoc', Javadoc) {
+    // Generated ANTLR sources are implementation artifacts, not public plugin API docs.
+    exclude { details ->
+        details.file.toPath().startsWith(antlrOutputDir.toPath())
     }
 }
 
