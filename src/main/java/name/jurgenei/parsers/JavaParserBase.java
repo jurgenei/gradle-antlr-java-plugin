@@ -4,12 +4,25 @@ import org.antlr.v4.runtime.*;
 import java.io.Writer;
 import java.util.List;
 
+/**
+ * Shared parser helper methods referenced by semantic predicates in Java grammar.
+ */
 public abstract class JavaParserBase extends Parser {
 
+    /**
+     * Creates parser base bound to active token stream.
+     *
+     * @param input token stream consumed by parser
+     */
     public JavaParserBase(TokenStream input){
 	super(input);
     }
 
+    /**
+     * Validates that record component with ellipsis appears only as last component.
+     *
+     * @return true when placement valid or context not record components, false otherwise
+     */
     public boolean DoLastRecordComponent() {
 	ParserRuleContext ctx = this.getContext();
 	if (!(ctx instanceof JavaParser.RecordComponentListContext)) {
@@ -29,6 +42,11 @@ public abstract class JavaParserBase extends Parser {
 	return true;
     }
 
+    /**
+     * Checks whether next tokens are not in form {@code identifier =}.
+     *
+     * @return true when lookahead is not assignment to identifier-like token
+     */
     public boolean IsNotIdentifierAssign()
     {
 	var la = this._input.LA(1);

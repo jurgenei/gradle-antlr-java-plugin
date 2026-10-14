@@ -187,6 +187,13 @@ sourceSets {
     }
 }
 
+tasks.named('javadoc', Javadoc) {
+    // Generated ANTLR sources are implementation artifacts, not public plugin API docs.
+    exclude { details ->
+        details.file.toPath().startsWith(antlrOutputDir.toPath())
+    }
+}
+
 tasks.named('compileJava') {
     dependsOn tasks.named('generateParserSources')
 }
