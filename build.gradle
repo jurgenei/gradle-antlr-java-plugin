@@ -18,7 +18,7 @@ plugins {
 }
 
 group = 'name.jurgenei.gradle'
-version = '0.1.2'
+version = '0.1.3'
 
 ext {
     spotbugsEngineVersion = '4.8.6'
@@ -257,25 +257,53 @@ tasks.register('verifyJarLayout') {
     }
 }
 
-def configureXmlAstTask = { XmlAstGradleTask taskRef ->
+def configureDirectoryProperty = { Object property, Object value ->
+    if (value instanceof org.gradle.api.provider.Provider || value instanceof org.gradle.api.file.Directory) {
+        property.set(value)
+    } else {
+        property.set(layout.dir(providers.provider { file(value) }))
+    }
+}
+
+def configureXmlAstTask = { XmlAstGradleTask taskRef, Object sourceDir, Object destDir, String description ->
     taskRef.group = 'verification'
-    taskRef.description = 'Parses Java grammar examples to XML AST.'
+    taskRef.description = description
     taskRef.dependsOn tasks.named('classes')
     taskRef.grammar.set('java')
     taskRef.parserClassName.set('name.jurgenei.parsers.JavaParser')
     taskRef.lexerClassName.set('name.jurgenei.parsers.JavaLexer')
     taskRef.startRule.set('compilationunit')
-    taskRef.sourceDirectory.set(layout.projectDirectory.dir('src/test/resources/examples'))
-    taskRef.destinationDirectory.set(layout.buildDirectory.dir('xmlast-examples'))
+    configureDirectoryProperty(taskRef.sourceDirectory, sourceDir)
+    configureDirectoryProperty(taskRef.destinationDirectory, destDir)
     taskRef.includes.set(['**/*.java'])
     taskRef.targetExtension.set('.xml')
     taskRef.continueOnError.set(false)
     taskRef.runtimeClasspath.from(configurations.runtimeClasspath)
 }
 
-tasks.register('javaXmlAstExamples', XmlAstGradleTask) {
-    configureXmlAstTask(delegate)
+def excludeJavaFilesWithErrorsCompanion = { XmlAstGradleTask taskRef, org.gradle.api.file.Directory examplesDirectory ->
+    def base = examplesDirectory.asFile.toPath()
+    def excludedJavaFiles = fileTree(examplesDirectory.asFile) {
+        include '**/*.java.errors'
+    }.files.collect { errorFile ->
+        base.relativize(errorFile.toPath()).toString().replace('\\', '/').replaceAll(/\.errors$/, '')
+    }
+    taskRef.excludes.addAll(excludedJavaFiles)
 }
+
+tasks.register('javaXmlAstExamples', XmlAstGradleTask) { it ->
+    def examplesDirectory = layout.projectDirectory.dir('src/test/resources/examples')
+    configureXmlAstTask(it, examplesDirectory, layout.buildDirectory.dir('xmlast-examples'), 'Parses Java grammar examples to XML AST.')
+    excludeJavaFilesWithErrorsCompanion(it, examplesDirectory)
+}
+
+tasks.register('XmlAstGradleTask', XmlAstGradleTask) { it ->
+    def examplesDirectory = layout.projectDirectory.dir('src/test/resources/examples')
+    configureXmlAstTask(it, examplesDirectory, layout.buildDirectory.dir('xmlast-xmlastgradletask'), 'Compatibility task for direct XmlAstGradleTask invocation.')
+    excludeJavaFilesWithErrorsCompanion(it, examplesDirectory)
+}
+
+
 
 tasks.withType(Test).configureEach {
     useJUnit()
