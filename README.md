@@ -18,6 +18,8 @@
 
 `gradle-antlr-java-plugin` provides preconfigured XML AST conversion support for Java sources using ANTLR Java grammars.
 
+Grammar coverage includes finalized Java 21 pattern syntax, including record patterns and pattern matching for `switch` (preview syntax excluded).
+
 ## Position in XIR spine
 
 - **Problem solved**: convert Java code into consistent structural AST artifacts.
