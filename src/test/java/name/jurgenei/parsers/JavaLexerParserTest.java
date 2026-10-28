@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class JavaLexerParserTest {
 
@@ -46,29 +47,17 @@ public class JavaLexerParserTest {
     @Test
     public void canParseJavaExampleFiles() throws Exception {
         for (File javaFile : testJavaFiles) {
-            try (InputStream is = Files.newInputStream(javaFile.toPath())) {
-                final CharStream charStream = CharStreams.fromStream(is, StandardCharsets.UTF_8);
-                final Lexer lexer = (Lexer) lexerConstructor.newInstance(charStream);
-                final CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-                final Parser parser = (Parser) parserConstructor.newInstance(tokenStream);
-
-                parser.removeErrorListeners();
-                parser.addErrorListener(new BaseErrorListener() {
-                    @Override
-                    public void syntaxError(final Recognizer<?, ?> recognizer,
-                                            final Object offendingSymbol,
-                                            final int line,
-                                            final int charPositionInLine,
-                                            final String msg,
-                                            final RecognitionException e) {
-                        Assert.fail("Parse error in " + javaFile.getName() + " at line " + line + ": " + msg);
-                    }
-                });
-
-                final Object tree = compilationUnitMethod.invoke(parser);
-                Assert.assertNotNull("Parse tree should not be null for " + javaFile.getName(), tree);
-            }
+            parseCompilationUnit(javaFile);
         }
+    }
+
+    @Test
+    public void canParseJava21RecordPatternFixture() throws Exception {
+        final List<File> java21Files = testJavaFiles.stream()
+                .filter(file -> "Java21RecordPatterns.java".equals(file.getName()))
+                .collect(Collectors.toList());
+        Assert.assertEquals("Expected exactly one Java 21 record pattern fixture", 1, java21Files.size());
+        parseCompilationUnit(java21Files.get(0));
     }
 
     @Test
@@ -80,6 +69,31 @@ public class JavaLexerParserTest {
             final CommonTokenStream tokenStream = new CommonTokenStream(lexer);
             tokenStream.fill();
             Assert.assertTrue("Lexer should produce at least one token", tokenStream.getNumberOfOnChannelTokens() > 0);
+        }
+    }
+
+    private void parseCompilationUnit(final File javaFile) throws Exception {
+        try (InputStream is = Files.newInputStream(javaFile.toPath())) {
+            final CharStream charStream = CharStreams.fromStream(is, StandardCharsets.UTF_8);
+            final Lexer lexer = (Lexer) lexerConstructor.newInstance(charStream);
+            final CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+            final Parser parser = (Parser) parserConstructor.newInstance(tokenStream);
+
+            parser.removeErrorListeners();
+            parser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(final Recognizer<?, ?> recognizer,
+                                        final Object offendingSymbol,
+                                        final int line,
+                                        final int charPositionInLine,
+                                        final String msg,
+                                        final RecognitionException e) {
+                    Assert.fail("Parse error in " + javaFile.getName() + " at line " + line + ": " + msg);
+                }
+            });
+
+            final Object tree = compilationUnitMethod.invoke(parser);
+            Assert.assertNotNull("Parse tree should not be null for " + javaFile.getName(), tree);
         }
     }
 }

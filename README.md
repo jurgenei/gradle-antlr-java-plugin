@@ -3,20 +3,38 @@
 ![Conformance](https://img.shields.io/badge/Conformance-Check--All%20Passing-brightgreen)
 
 [![Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/name.jurgenei.gradle.antlr.java?label=Plugin%20Portal)](https://plugins.gradle.org/plugin/name.jurgenei.gradle.antlr.java)
-[![Build and Test](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/ci.yml?query=branch%3Amain)
-[![Coverage CI](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/coverage.yml/badge.svg?branch=main)](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/coverage.yml?query=branch%3Amain)
-[![Coverage](https://codecov.io/gh/jurgenei/gradle-antlr-java-plugin/graph/badge.svg?branch=main)](https://app.codecov.io/gh/jurgenei/gradle-antlr-java-plugin?branch=main)
+[![Build and Test](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/ci.yml)
+[![JUnit Report](https://img.shields.io/badge/JUnit-Report-blue?logo=githubactions)](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/ci.yml)
+[![Coverage CI](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/coverage.yml/badge.svg)](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/coverage.yml)
+[![CodeQL](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/codeql.yml/badge.svg)](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/codeql.yml)
+[![Dependency Check](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/dependency-check.yml/badge.svg)](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/dependency-check.yml)
+[![SpotBugs Security](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/spotbugs-security.yml/badge.svg)](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/spotbugs-security.yml)
+[![Checkstyle](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/checkstyle.yml/badge.svg)](https://github.com/jurgenei/gradle-antlr-java-plugin/actions/workflows/checkstyle.yml)
+[![Dependabot](https://img.shields.io/badge/dependabot-enabled-025E8C?logo=dependabot)](https://github.com/jurgenei/gradle-antlr-java-plugin/security/dependabot)
+[![Coverage](https://codecov.io/gh/jurgenei/gradle-antlr-java-plugin/graph/badge.svg?branch=main)](https://codecov.io/gh/jurgenei/gradle-antlr-java-plugin)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Java](https://img.shields.io/badge/java-21+-green.svg)](https://www.oracle.com/java/)
-[![Gradle](https://img.shields.io/badge/gradle-8+-blue.svg)](https://gradle.org/)
+[![Gradle](https://img.shields.io/badge/gradle-9.5+-blue.svg)](https://gradle.org/)
 
 `gradle-antlr-java-plugin` provides preconfigured XML AST conversion support for Java sources using ANTLR Java grammars.
+
+Grammar coverage includes finalized Java 21 pattern syntax, including record patterns and pattern matching for `switch` (preview syntax excluded).
+
+## Position in XIR spine
+
+- **Problem solved**: convert Java code into consistent structural AST artifacts.
+- **Relation to XIR**: observation adapter on top of `gradle-antlr-plugin` for Java grammar domain.
+- **Why it matters**: standardizes source evidence used later in derivation and knowledge applications.
+
+```text
+Structured Knowledge -> XIR -> Observation -> Derivation -> Knowledge -> Applications
+```
 
 ## Install
 
 ```groovy
 plugins {
-    id 'name.jurgenei.gradle.antlr.java' version '0.1.1'
+    id 'name.jurgenei.gradle.antlr.java' version '0.1.4'
 }
 ```
 
