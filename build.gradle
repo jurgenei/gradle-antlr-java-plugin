@@ -52,7 +52,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'name.jurgenei.gradle:gradle-antlr-plugin:0.1.10'
+    implementation 'name.jurgenei.gradle:gradle-antlr-plugin:0.1.11'
     implementation 'org.antlr:antlr4-runtime:4.13.2'
 
     antlr 'org.antlr:antlr4:4.13.2'
