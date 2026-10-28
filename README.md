@@ -34,7 +34,7 @@ Structured Knowledge -> XIR -> Observation -> Derivation -> Knowledge -> Applica
 
 ```groovy
 plugins {
-    id 'name.jurgenei.gradle.antlr.java' version '0.1.1'
+    id 'name.jurgenei.gradle.antlr.java' version '0.1.4'
 }
 ```
 
